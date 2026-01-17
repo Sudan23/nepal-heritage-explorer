@@ -1,0 +1,37 @@
+:root {
+  /* Nepal Heritage Palette */
+  --color-heritage-red: #DC143C; /* Crimson (National Color) */
+  --color-heritage-gold: #FFD700; /* Temple Gold */
+  --color-heritage-terra: #E07A5F; /* Brick/Terracotta */
+  
+  /* Modern Dark Mode Base */
+  --color-bg-primary: #0F172A; /* Slate 900 */
+  --color-bg-secondary: #1E293B; /* Slate 800 */
+  --color-bg-tertiary: #334155; /* Slate 700 */
+  
+  /* Text */
+  --color-text-primary: #F8FAFC; /* Slate 50 */
+  --color-text-secondary: #CBD5E1; /* Slate 300 */
+  --color-text-muted: #94A3B8; /* Slate 400 */
+  
+  /* Accents */
+  --color-accent-primary: var(--color-heritage-red);
+  --color-accent-secondary: var(--color-heritage-gold);
+  
+  /* Shadows & Glass */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --glass-bg: rgba(30, 41, 59, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+.light-theme {
+  --color-bg-primary: #F8FAFC;
+  --color-bg-secondary: #FFFFFF;
+  --color-bg-tertiary: #E2E8F0;
+  
+  --color-text-primary: #0F172A;
+  --color-text-secondary: #334155;
+  --color-text-muted: #64748B;
+}
