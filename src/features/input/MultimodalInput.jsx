@@ -3,10 +3,11 @@ import Webcam from 'react-webcam';
 import { Camera, Mic, MapPin, Calendar, X, Check, RefreshCw, Play, Square } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const MultimodalInput = () => {
+const MultimodalInput = ({ onGenerate }) => {
     const [activeTab, setActiveTab] = useState('camera'); // camera | audio
     const [media, setMedia] = useState({ photo: null, audio: null });
     const [isRecording, setIsRecording] = useState(false);
+    const [isGenerating, setIsGenerating] = useState(false);
     const [audioBlob, setAudioBlob] = useState(null);
     const [audioUrl, setAudioUrl] = useState(null);
     const [location, setLocation] = useState('');
@@ -221,11 +222,25 @@ const MultimodalInput = () => {
 
                 <button
                     className="btn-primary"
-                    disabled={!media.photo && !audioBlob}
-                    style={{ width: '100%', opacity: (!media.photo && !audioBlob) ? 0.5 : 1, cursor: (!media.photo && !audioBlob) ? 'not-allowed' : 'pointer' }}
+                    onClick={() => {
+                        setIsGenerating(true);
+                        onGenerate({ media, location, date }).finally(() => setIsGenerating(false));
+                    }}
+                    disabled={(!media.photo && !audioBlob) || isGenerating}
+                    style={{ width: '100%', opacity: ((!media.photo && !audioBlob) || isGenerating) ? 0.5 : 1, cursor: ((!media.photo && !audioBlob) || isGenerating) ? 'not-allowed' : 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
                 >
-                    Generate Itinerary
+                    {isGenerating ? (
+                        <>
+                            <RefreshCw className="spin" size={20} style={{ marginRight: '8px', animation: 'spin 1s linear infinite' }} />
+                            Generating...
+                        </>
+                    ) : (
+                        "Generate Itinerary"
+                    )}
                 </button>
+                <style>{`
+          @keyframes spin { 100% { transform: rotate(360deg); } }
+        `}</style>
             </div>
         </div>
     );
