@@ -2,7 +2,7 @@ import React from 'react';
 import { Clock, MapPin, Info, ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-const ItineraryDisplay = ({ data, onBack }) => {
+const ItineraryDisplay = ({ data, onBack, onNavigate }) => {
     if (!data) return null;
 
     return (
@@ -73,6 +73,29 @@ const ItineraryDisplay = ({ data, onBack }) => {
                                 <p style={{ fontSize: '0.9rem', color: 'var(--color-text-primary)', marginBottom: '0.75rem' }}>
                                     {activity.description}
                                 </p>
+
+                                {activity.type === 'heritage' && (
+                                    <button
+                                        onClick={() => onNavigate && onNavigate('heritage')}
+                                        style={{
+                                            width: '100%',
+                                            marginBottom: '0.75rem',
+                                            padding: '0.75rem',
+                                            background: 'linear-gradient(90deg, var(--color-heritage-red), #C0392B)',
+                                            border: 'none',
+                                            borderRadius: '0.5rem',
+                                            color: 'white',
+                                            fontWeight: 'bold',
+                                            cursor: 'pointer',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            gap: '0.5rem'
+                                        }}
+                                    >
+                                        <span style={{ fontSize: '1.2rem' }}>🏛️</span> View in 3D
+                                    </button>
+                                )}
 
                                 {/* Gemini Insight */}
                                 <div style={{

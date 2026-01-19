@@ -1,7 +1,7 @@
 import React from 'react';
 import { Camera, Map, Box } from 'lucide-react';
 
-const AppShell = ({ children }) => {
+const AppShell = ({ children, activeTab, onTabChange }) => {
     return (
         <div className="layout-shell">
             <header className="glass-panel" style={{
@@ -45,16 +45,16 @@ const AppShell = ({ children }) => {
                 justifyContent: 'space-around',
                 zIndex: 100
             }}>
-                <NavButton icon={Camera} label="Scan" active />
-                <NavButton icon={Map} label="Itinerary" />
-                <NavButton icon={Box} label="Heritage" />
+                <NavButton icon={Camera} label="Scan" active={activeTab === 'scan'} onClick={() => onTabChange('scan')} />
+                <NavButton icon={Map} label="Itinerary" active={activeTab === 'itinerary'} onClick={() => onTabChange('itinerary')} />
+                <NavButton icon={Box} label="Heritage" active={activeTab === 'heritage'} onClick={() => onTabChange('heritage')} />
             </nav>
         </div>
     );
 };
 
-const NavButton = ({ icon: Icon, label, active }) => (
-    <button style={{
+const NavButton = ({ icon: Icon, label, active, onClick }) => (
+    <button onClick={onClick} style={{
         background: 'none',
         border: 'none',
         color: active ? 'var(--color-heritage-red)' : 'var(--color-text-muted)',

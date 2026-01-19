@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Brain Artifacts
+4ae8ddd3-c7c4-48ed-a784-76556b77c3da/
