@@ -10,7 +10,7 @@ const ItineraryDisplay = ({ data, onBack, onNavigate }) => {
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             className="itinerary-container"
-            style={{ paddingBottom: '6rem' }}
+            style={{ height: '100%' }}
         >
             {/* Header */}
             <div className="glass-panel" style={{ padding: '1.5rem', marginBottom: '1.5rem', borderRadius: '1rem', position: 'relative' }}>

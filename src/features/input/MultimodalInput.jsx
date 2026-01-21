@@ -58,20 +58,43 @@ const MultimodalInput = ({ onGenerate }) => {
         }
     };
 
+    const [isLocating, setIsLocating] = useState(false);
+
+    // ... existing refs ...
+
+    // ... existing camera/audio logic ...
+
     const handleLocation = () => {
-        if ("geolocation" in navigator) {
-            navigator.geolocation.getCurrentPosition((position) => {
-                setLocation(`${position.coords.latitude.toFixed(4)}, ${position.coords.longitude.toFixed(4)}`);
-            }, () => {
-                setLocation("Kathmandu, Nepal"); // Default fallback
-            });
-        } else {
-            setLocation("Kathmandu, Nepal");
+        if (!("geolocation" in navigator)) {
+            alert("Geolocation is not supported by your browser");
+            return;
         }
+
+        setIsLocating(true);
+        navigator.geolocation.getCurrentPosition(async (position) => {
+            const { latitude, longitude } = position.coords;
+            try {
+                const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+                const data = await response.json();
+
+                // Extract relevant address part
+                const city = data.address.city || data.address.town || data.address.village || data.address.county || "Unknown Location";
+                setLocation(`${city}, Nepal`); // Assuming mostly Nepal for this app
+            } catch (error) {
+                console.error("Error fetching address:", error);
+                setLocation(`${latitude.toFixed(4)}, ${longitude.toFixed(4)}`);
+            } finally {
+                setIsLocating(false);
+            }
+        }, (error) => {
+            console.error("Geolocation error:", error);
+            setIsLocating(false);
+            setLocation("Kathmandu, Nepal"); // Fallback
+        });
     };
 
     return (
-        <div className="glass-panel" style={{ borderRadius: '1.5rem', overflow: 'hidden', margin: '1rem' }}>
+        <div className="glass-panel" style={{ borderRadius: '1.5rem', overflow: 'hidden', height: '100%' }}>
             {/* Tabs */}
             <div style={{ display: 'flex', borderBottom: '1px solid var(--glass-border)' }}>
                 <button
@@ -201,6 +224,7 @@ const MultimodalInput = ({ onGenerate }) => {
                         <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem', color: 'var(--color-text-muted)' }}>Location</label>
                         <button
                             onClick={handleLocation}
+                            disabled={isLocating}
                             style={{
                                 width: '100%',
                                 display: 'flex',
@@ -211,10 +235,13 @@ const MultimodalInput = ({ onGenerate }) => {
                                 borderRadius: '0.5rem',
                                 border: 'none',
                                 color: location ? 'var(--color-text-primary)' : 'var(--color-text-muted)',
-                                cursor: 'pointer'
+                                cursor: isLocating ? 'wait' : 'pointer',
+                                opacity: isLocating ? 0.7 : 1
                             }}
                         >
-                            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{location || "Set Location"}</span>
+                            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                {isLocating ? "Locating..." : (location || "Set Location")}
+                            </span>
                             <MapPin size={16} style={{ color: 'var(--color-accent-primary)' }} />
                         </button>
                     </div>

@@ -15,7 +15,6 @@ const CulturalInsightCard = () => {
 
     return (
         <div className="glass-panel" style={{
-            margin: '1rem',
             padding: '1.25rem',
             borderLeft: '4px solid var(--color-heritage-red)',
             position: 'relative',

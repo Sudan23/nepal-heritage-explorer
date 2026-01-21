@@ -26,6 +26,7 @@ function App() {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 1.05 }}
           transition={{ duration: 0.4 }}
+          style={{ height: '100%', width: '100%' }}
         >
           <HeritageViewer />
         </motion.div>
@@ -40,6 +41,7 @@ function App() {
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -50 }}
           transition={{ duration: 0.3 }}
+          style={{ height: '100%', overflowY: 'auto', paddingRight: '0.5rem' }}
         >
           <ItineraryDisplay data={itinerary} onBack={() => setActiveTab('scan')} onNavigate={setActiveTab} />
         </motion.div>
@@ -54,15 +56,39 @@ function App() {
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: 20 }}
         transition={{ duration: 0.3 }}
+        style={{
+          height: '100%',
+          overflowY: 'auto',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '1rem',
+          paddingBottom: '1rem'
+        }}
       >
-        <div style={{ textAlign: 'center', padding: '2rem 0 0.5rem' }}>
-          <h2 style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>Welcome to Nepal</h2>
+        <div style={{ textAlign: 'center', flex: '0 0 auto', paddingTop: '1rem' }}>
+          <h2 style={{ fontSize: '1.5rem', marginBottom: '0.25rem' }}>Welcome to Nepal</h2>
           <p style={{ color: 'var(--color-text-secondary)', maxWidth: '600px', margin: '0 auto', fontSize: '0.9rem' }}>
             Capture a moment or tell a story to generate your personalized path.
           </p>
         </div>
-        <CulturalInsightCard />
-        <MultimodalInput onGenerate={handleGenerate} />
+
+        <div style={{
+          width: '100%',
+          maxWidth: '800px',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gap: '1rem',
+          flex: '1 0 auto' // Allow to grow but dont force huge scroll
+        }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <CulturalInsightCard />
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <MultimodalInput onGenerate={handleGenerate} />
+          </div>
+        </div>
       </motion.div>
     );
   };
