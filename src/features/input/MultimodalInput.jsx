@@ -40,14 +40,20 @@ const MultimodalInput = ({ onGenerate }) => {
 
             mediaRecorderRef.current.onstop = () => {
                 const blob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+                const url = URL.createObjectURL(blob);
                 setAudioBlob(blob);
-                setAudioUrl(URL.createObjectURL(blob));
+                setAudioUrl(url);
+                setMedia(prev => ({ ...prev, audio: blob })); // Update main media state
+
+                // Stop all tracks to release microphone
+                stream.getTracks().forEach(track => track.stop());
             };
 
             mediaRecorderRef.current.start();
             setIsRecording(true);
         } catch (err) {
             console.error("Error accessing microphone:", err);
+            alert("Could not access microphone. Please check permissions.");
         }
     };
 
@@ -253,8 +259,8 @@ const MultimodalInput = ({ onGenerate }) => {
                         setIsGenerating(true);
                         onGenerate({ media, location, date }).finally(() => setIsGenerating(false));
                     }}
-                    disabled={(!media.photo && !audioBlob) || isGenerating}
-                    style={{ width: '100%', opacity: ((!media.photo && !audioBlob) || isGenerating) ? 0.5 : 1, cursor: ((!media.photo && !audioBlob) || isGenerating) ? 'not-allowed' : 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+                    disabled={(!media.photo && !media.audio) || isGenerating}
+                    style={{ width: '100%', opacity: ((!media.photo && !media.audio) || isGenerating) ? 0.5 : 1, cursor: ((!media.photo && !media.audio) || isGenerating) ? 'not-allowed' : 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
                 >
                     {isGenerating ? (
                         <>

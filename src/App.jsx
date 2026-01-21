@@ -81,12 +81,12 @@ function App() {
           gap: '1rem',
           flex: '1 0 auto' // Allow to grow but dont force huge scroll
         }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            <CulturalInsightCard />
-          </div>
-
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <MultimodalInput onGenerate={handleGenerate} />
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <CulturalInsightCard />
           </div>
         </div>
       </motion.div>
